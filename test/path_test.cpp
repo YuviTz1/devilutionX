@@ -45,12 +45,12 @@ TEST(PathTest, Heuristics)
 TEST(PathTest, Solid)
 {
 	dPiece[5][5] = 0;
-	nSolidTable[0] = true;
+	//nSolidTable[0] = true;
 	EXPECT_TRUE(IsTileSolid({ 5, 5 })) << "Solid in-bounds tiles are solid";
 	EXPECT_FALSE(IsTileNotSolid({ 5, 5 })) << "IsTileNotSolid returns the inverse of IsTileSolid for in-bounds tiles";
 
 	dPiece[6][6] = 1;
-	nSolidTable[1] = false;
+	//nSolidTable[1] = false;
 	EXPECT_FALSE(IsTileSolid({ 6, 6 })) << "Non-solid in-bounds tiles are not solid";
 	EXPECT_TRUE(IsTileNotSolid({ 6, 6 })) << "IsTileNotSolid returns the inverse of IsTileSolid for in-bounds tiles";
 
@@ -64,13 +64,13 @@ TEST(PathTest, SolidPieces)
 	dPiece[0][1] = 0;
 	dPiece[1][0] = 0;
 	dPiece[1][1] = 0;
-	nSolidTable[0] = false;
+	//nSolidTable[0] = false;
 	EXPECT_TRUE(path_solid_pieces({ 0, 0 }, { 1, 1 })) << "A step in open space is free of solid pieces";
 	EXPECT_TRUE(path_solid_pieces({ 1, 1 }, { 0, 0 })) << "A step in open space is free of solid pieces";
 	EXPECT_TRUE(path_solid_pieces({ 1, 0 }, { 0, 1 })) << "A step in open space is free of solid pieces";
 	EXPECT_TRUE(path_solid_pieces({ 0, 1 }, { 1, 0 })) << "A step in open space is free of solid pieces";
 
-	nSolidTable[1] = true;
+	//nSolidTable[1] = true;
 	dPiece[1][0] = 1;
 	EXPECT_TRUE(path_solid_pieces({ 0, 1 }, { 1, 0 })) << "Can path to a destination which is solid";
 	EXPECT_TRUE(path_solid_pieces({ 1, 0 }, { 0, 1 })) << "Can path from a starting position which is solid";
@@ -140,11 +140,11 @@ TEST(PathTest, FindPath)
 TEST(PathTest, Walkable)
 {
 	dPiece[5][5] = 0;
-	nSolidTable[0] = true; // Doing this manually to save running through the code in gendung.cpp
+	//nSolidTable[0] = true; // Doing this manually to save running through the code in gendung.cpp
 	EXPECT_FALSE(IsTileWalkable({ 5, 5 })) << "Tile which is marked as solid should be considered blocked";
 	EXPECT_FALSE(IsTileWalkable({ 5, 5 }, true)) << "Solid non-door tiles remain unwalkable when ignoring doors";
 
-	nSolidTable[0] = false;
+	//nSolidTable[0] = false;
 	EXPECT_TRUE(IsTileWalkable({ 5, 5 })) << "Non-solid tiles are walkable";
 	EXPECT_TRUE(IsTileWalkable({ 5, 5 }, true)) << "Non-solid tiles remain walkable when ignoring doors";
 
@@ -161,7 +161,7 @@ TEST(PathTest, Walkable)
 	EXPECT_TRUE(IsTileWalkable({ 5, 5 })) << "Tile occupied by an open door is walkable";
 	EXPECT_TRUE(IsTileWalkable({ 5, 5 }, true)) << "Tile occupied by a door is considered walkable when ignoring doors";
 
-	nSolidTable[0] = true;
+	//nSolidTable[0] = true;
 	EXPECT_FALSE(IsTileWalkable({ 5, 5 })) << "Solid tiles occupied by an open door remain unwalkable";
 	EXPECT_TRUE(IsTileWalkable({ 5, 5 }, true)) << "Solid tiles occupied by an open door become walkable when ignoring doors";
 }

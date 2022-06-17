@@ -79,6 +79,20 @@ enum class DungeonFlag : uint8_t {
 };
 use_enum_as_flags(DungeonFlag);
 
+enum class TileProperties : uint8_t {
+	// clang-format off
+	None             = 0,
+	Solid            = 1 << 0,
+	BlockLight       = 1 << 1,
+	BlockMissile     = 1 << 2,
+	Transparent      = 1 << 3,
+	TransparentLeft  = 1 << 4,
+	TransparentRight = 1 << 5,
+	Trap             = 1 << 7,
+	// clang-format on
+};
+use_enum_as_flags(TileProperties);
+
 enum _difficulty : uint8_t {
 	DIFF_NORMAL,
 	DIFF_NIGHTMARE,
@@ -139,26 +153,9 @@ extern DVL_API_FOR_TEST std::unique_ptr<MegaTile[]> pMegaTiles;
 extern std::unique_ptr<uint16_t[]> pLevelPieces;
 extern std::unique_ptr<byte[]> pDungeonCels;
 /**
- * List of transparency masks to use for dPieces
+ * List tile properties
  */
-extern std::array<uint8_t, MAXTILES + 1> block_lvid;
-/**
- * List of light blocking dPieces
- */
-extern std::array<bool, MAXTILES + 1> nBlockTable;
-/**
- * List of path blocking dPieces
- */
-extern DVL_API_FOR_TEST std::array<bool, MAXTILES + 1> nSolidTable;
-/**
- * List of transparent dPieces
- */
-extern std::array<bool, MAXTILES + 1> nTransTable;
-/**
- * List of missile blocking dPieces
- */
-extern std::array<bool, MAXTILES + 1> nMissileTable;
-extern std::array<bool, MAXTILES + 1> nTrapTable;
+extern std::unique_ptr<TileProperties[]> SOLData;
 /** Specifies the minimum X,Y-coordinates of the map. */
 extern Point dminPosition;
 /** Specifies the maximum X,Y-coordinates of the map. */
@@ -316,6 +313,7 @@ struct Miniset {
 	}
 };
 
+bool TileHasAny(int tileId, TileProperties property);
 void FillSolidBlockTbls();
 void SetDungeonMicros();
 void DRLG_InitTrans();
