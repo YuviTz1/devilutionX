@@ -449,6 +449,9 @@ bool TileHasAny(int tileId, TileProperties property)
 void FillSolidBlockTbls()
 {
 	SOLData = LoadLevelSOLData();
+
+	if (leveltype == DTYPE_HELL)
+		SOLData[210] = TileProperties::None; // Tile is incorrectly marked as being solid
 }
 
 void SetDungeonMicros()
